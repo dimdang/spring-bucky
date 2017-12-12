@@ -1,10 +1,14 @@
 package com.bucky.crazy.configurations;
 
 import org.apache.commons.dbcp.BasicDataSource;
-import org.springframework.context.annotation.Bean;
-import org.springframework.core.env.Environment;
+import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.core.env.Environment;
+import org.springframework.orm.hibernate5.HibernateTransactionManager;
+import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javax.sql.DataSource;
@@ -17,6 +21,7 @@ import java.util.Properties;
  */
 @Configuration
 @EnableTransactionManagement
+@PropertySource(value = {"classpath:/config/database.properties", "classpath:/config/hibernate.properties"})
 public class WebConfiguration {
 
     @Autowired
@@ -27,9 +32,26 @@ public class WebConfiguration {
         BasicDataSource ds = new BasicDataSource();
         ds.setDriverClassName(environment.getProperty("bucky.db.driver"));
         ds.setUrl(environment.getProperty("bucky.db.url"));
-        ds.setUsername("bucky.db.username");
-        ds.setPassword("bucky.db.password");
+        ds.setUsername(environment.getProperty("bucky.db.username"));
+        ds.setPassword(environment.getProperty("bucky.db.password"));
         return ds;
+    }
+
+    @Bean
+    @Autowired
+    public LocalSessionFactoryBean getSessionFactory(DataSource dataSource){
+        LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();
+        sessionFactory.setDataSource(dataSource);
+        sessionFactory.setPackagesToScan(new String[]{"com.bucky.crazy.model"});
+        sessionFactory.setHibernateProperties(getHibernateProperties());
+        return sessionFactory;
+    }
+
+    @Bean(name = "transactionManager")
+    @Autowired
+    public HibernateTransactionManager getTransactionManager(SessionFactory sessionFactory){
+        HibernateTransactionManager transactionManager = new HibernateTransactionManager(sessionFactory);
+        return transactionManager;
     }
 
     public Properties getHibernateProperties(){
