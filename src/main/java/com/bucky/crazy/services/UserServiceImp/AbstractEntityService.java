@@ -1,10 +1,11 @@
 package com.bucky.crazy.services.UserServiceImp;
 
 import com.bucky.crazy.model.core.AbstractEntities;
-import com.bucky.crazy.repositories.RepositoryEntity;
-import com.bucky.crazy.services.AbstractService;
+import com.bucky.crazy.repositories.EntityDao;
+import com.bucky.crazy.services.EntityService;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.springframework.stereotype.Service;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -15,82 +16,83 @@ import java.util.List;
  * Date     : 12-Dec-17, 5:06 PM
  * Email    : d.dim@gl-f.com
  */
-public class AbstractEntityServiceImpl implements AbstractService {
+@Service
+public abstract class AbstractEntityService implements EntityService {
 
-    public RepositoryEntity rptEntity;
+    public abstract EntityDao getDao();
 
     @Override
     public SessionFactory getSessionFactory() {
-        return rptEntity.getSessionFactory();
+        return getDao().getSessionFactory();
     }
 
     @Override
     public Session getCurrentSession() {
-        return rptEntity.getCurrentSession();
+        return getDao().getCurrentSession();
     }
 
     @Override
     public Connection getConnection() throws SQLException {
-        return rptEntity.getConnection();
+        return getDao().getConnection();
     }
 
     @Override
     public <T> T getEntityById(Long id, Class<T> tClass) {
-        return rptEntity.getEntityById(id, tClass);
+        return getDao().getEntityById(id, tClass);
     }
 
     @Override
     public <T> T loadEntityById(Long id, Class<T> clazz) {
-        return rptEntity.loadEntityById(id, clazz);
+        return getDao().loadEntityById(id, clazz);
     }
 
     @Override
     public <T> List<T> list(Class<T> tClass) {
-        return rptEntity.list(tClass);
+        return getDao().list(tClass);
     }
 
     @Override
     public <T extends AbstractEntities> void save(T entity) {
-        rptEntity.save(entity);
+        getDao().save(entity);
     }
 
     @Override
     public <T extends AbstractEntities> void update(T entity) {
-        rptEntity.update(entity);
+        getDao().update(entity);
     }
 
     @Override
     public <T> void saveUpdate(T entity) {
-        rptEntity.saveUpdate(entity);
+        getDao().saveUpdate(entity);
     }
 
     @Override
     public <T extends AbstractEntities> void save(List<T> list) {
-        rptEntity.save(list);
+        getDao().save(list);
     }
 
     @Override
     public <T extends AbstractEntities> void update(List<T> list) {
-        rptEntity.update(list);
+        getDao().update(list);
     }
 
     @Override
     public <T> void saveUpdate(List<T> list) {
-        rptEntity.saveUpdate(list);
+        getDao().saveUpdate(list);
     }
 
     @Override
     public <T> void delete(T entity) {
-        rptEntity.delete(entity);
+        getDao().delete(entity);
     }
 
     @Override
     public <T> List<T> getList(String sql, Class<T> tClass) {
-        return rptEntity.getList(sql, tClass);
+        return getDao().getList(sql, tClass);
     }
 
     @Override
     public int exCuteSQL(String sql) {
-        return rptEntity.exCuteSQL(sql);
+        return getDao().exCuteSQL(sql);
     }
 }

@@ -20,6 +20,7 @@ public abstract class AbstractEntities implements Serializable, Cloneable{
     protected Long id;
     protected String code;
     protected String desc;
+
     @JsonIgnore
     protected String userCreate;
     @JsonIgnore

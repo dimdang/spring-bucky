@@ -1,7 +1,7 @@
 package com.bucky.crazy.repositories.repositoryImpl;
 
 import com.bucky.crazy.model.core.AbstractEntities;
-import com.bucky.crazy.repositories.RepositoryEntity;
+import com.bucky.crazy.repositories.EntityDao;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -20,7 +20,7 @@ import java.util.List;
  * Date     : 12-Dec-17, 4:23 PM
  * Email    : d.dim@gl-f.com
  */
-public class RepositoryEntityImpl implements RepositoryEntity {
+public abstract class AbstractEntityDao implements EntityDao {
 
     @Autowired
     private SessionFactory sessionFactory;

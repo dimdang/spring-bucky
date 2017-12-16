@@ -1,6 +1,7 @@
 package com.bucky.crazy.services;
 
 import com.bucky.crazy.model.core.AbstractEntities;
+import com.bucky.crazy.repositories.EntityDao;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
@@ -13,7 +14,9 @@ import java.util.List;
  * Date     : 12-Dec-17, 3:09 PM
  * Email    : d.dim@gl-f.com
  */
-public interface AbstractService {
+public interface EntityService {
+
+    EntityDao getDao();
 
     SessionFactory getSessionFactory();
     Session getCurrentSession();

@@ -13,7 +13,7 @@ import java.util.List;
  * Date     : 12-Dec-17, 2:57 PM
  * Email    : d.dim@gl-f.com
  */
-public interface RepositoryEntity {
+public interface EntityDao {
 
     SessionFactory getSessionFactory();
     Session getCurrentSession();
