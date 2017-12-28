@@ -10,6 +10,8 @@ import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
+import java.util.ArrayList;
+
 /**
  * Created by Dang Dim
  * Date     : 16-Dec-17, 5:20 PM
@@ -24,12 +26,20 @@ public class SwaggerConfiguration {
     public Docket api() {
         return new Docket(DocumentationType.SWAGGER_2)
                 .select()
-                .apis(RequestHandlerSelectors.any())
-                .paths(PathSelectors.any())
+                .apis(RequestHandlerSelectors.basePackage("com.bucky.crazy.controller"))
+                .paths(PathSelectors.ant("/api/**"))
                 .build();
     }
 
-    private ApiInfo apiInfo (){
-
+    private ApiInfo apiInfo() {
+        ApiInfo apiInfo = new ApiInfo(
+                "Bucky Sally Api",
+                "Some custom description of API.",
+                "API TOS",
+                "Terms of service",
+                new Contact("Bucky Born", "www.google.com", "buckymini@gmail.com"),
+                "License of API",
+                "API license URL");
+        return apiInfo;
     }
 }
